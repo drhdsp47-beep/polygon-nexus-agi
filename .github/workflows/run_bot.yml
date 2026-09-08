@@ -1,0 +1,35 @@
+name: Run Polygon Nexus Bot
+
+on:
+  # يشتغل التلقائي كل ساعة كاملة لوحده
+  schedule:
+    - cron: '0 * * * *'
+  # يتيح لك زر في غيت هاب لتشغيل بايثون يدوياً فوراً في أي وقت تريد
+  workflow_dispatch:
+
+jobs:
+  run-python-logic:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-with: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        pip install requests web3
+
+    - name: Execute Python Brain
+      run: python nexus_core.py
+
+    - name: Commit and Push Updates to GitHub Pages
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "actions@github.com"
+        git add stats.json
+        git commit -m "Autonmous upgrade by Python Brain" || exit 0
+        git push
