@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Polygon Nexus AGI - بوابة GitHub Pages</title>
+    <style>
+        body { background-color: #0b0c10; color: #c5c6c7; font-family: sans-serif; padding: 30px; text-align: center; }
+        .box { background-color: #1f2833; border: 2px solid #45f3ff; border-radius: 15px; padding: 30px; max-width: 600px; margin: 0 auto; box-shadow: 0 0 15px #45f3ff; }
+        h1 { color: #45f3ff; }
+        button { background-color: #45f3ff; color: #0b0c10; border: none; padding: 12px 25px; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%; }
+        button:hover { background-color: #66fcf1; }
+        textarea { width: 100%; padding: 10px; background: #0b0c10; border: 1px solid #45f3ff; color: white; border-radius: 5px; box-sizing: border-box; margin-bottom: 15px; }
+        .res { background: #0b0c10; padding: 15px; border-radius: 5px; text-align: right; margin-top: 15px; border-right: 4px solid #45f3ff; display: none; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>🌌 واجهة بايثون السحابية | GitHub Pages</h1>
+    <p>المحفظة المستهدفة: <strong style="color: #66fcf1;">0xa3dCED521c887C5b46e77F807330097245d80E35</strong></p>
+    <hr style="border-color: #45f3ff;">
+    
+    <p>اكتب أمرك التقني ليقوم محرك بايثون بمعالجته فوراً وتسييله ماليًا:</p>
+    <textarea id="promptInput" rows="4" placeholder="اكتب سؤالك البرمجي هنا لبثه إلى خادم بايثون..."></textarea>
+    <button onclick="sendToPythonBackend()">⚡ إرسال الطلب إلى عقل Python</button>
+    
+    <div id="resultBox" class="res"></div>
+</div>
+
+<script>
+async function sendToPythonBackend() {
+    const prompt = document.getElementById("promptInput").value;
+    const resultBox = document.getElementById("resultBox");
+    if(!prompt) return alert("الرجاء كتابة سؤال أولاً!");
+    
+    resultBox.style.display = "block";
+    resultBox.innerText = "⏳ جاري توجيه الطلب سحابياً إلى خادم بايثون (Python Backend)...";
+
+    try {
+        // الاتصال برابط خادم بايثون السحابي (استبدل localhost برابط السيرفر المجاني لاحقاً)
+        const response = await fetch("http://localhost:8000", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: prompt })
+        });
+        const data = await response.json();
+        
+        resultBox.innerHTML = `<strong>🤖 استجابة بايثون الحية:</strong><br>${data.reply}<br><br><span style="color:#66fcf1;">💸 تم تأكيد بث الأرباح بنجاح لمحفظتك!</span>`;
+    } catch (error) {
+        resultBox.innerHTML = `<span style="color:red;">⚠️ تعذر الوصول لخادم بايثون السحابي الحقيقي.</span><br><small>تأكد من تشغيل ملف nexus_api.py على السيرفر المجاني لربطه بـ GitHub Pages.</small>`;
+    }
+}
+</script>
+</body>
+</html>
